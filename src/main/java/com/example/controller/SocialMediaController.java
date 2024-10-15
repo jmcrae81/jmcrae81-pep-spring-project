@@ -27,7 +27,6 @@ public class SocialMediaController {
     ApplicationContext applicationContext;
     @Autowired
     AccountService accountService;
-
     @PostMapping("/register")
     public @ResponseBody ResponseEntity<Account> registerUser(@RequestBody Account account){
         String username = account.getUsername();

@@ -23,7 +23,6 @@ public class AccountService {
         String username = account.getUsername();
         String password = account.getPassword();
         Account returnedAccount;
-
         returnedAccount = this.accountRepository.save(account);
 
         return returnedAccount;

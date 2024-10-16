@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
+
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
  * found in readme.md as well as the test cases. You be required to use the @GET/POST/PUT/DELETE/etc Mapping annotations
@@ -67,7 +67,6 @@ public class SocialMediaController {
         return ResponseEntity.status(responseStatus).body(accountToReturn);
         
     }
-
     
     @PostMapping("/messages")
     public @ResponseBody ResponseEntity<Message> createMessage(@RequestBody Message message){
@@ -122,6 +121,7 @@ public class SocialMediaController {
         
         return ResponseEntity.status(responseStatus).body(null);
     }
+    
     @PatchMapping("/messages/{messageId}")
     public @ResponseBody ResponseEntity<Integer> updateMessageText(@PathVariable int messageId,
             @RequestBody Map<String, String> textFromRequestBody){

@@ -22,7 +22,8 @@ import java.util.Map;
  * where applicable as well as the @ResponseBody and @PathVariable annotations. You should
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
-@ComponentScan(basePackages="com.example")
+
+
 @RestController
 public class SocialMediaController {
     

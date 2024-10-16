@@ -23,7 +23,7 @@ import java.util.Map;
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
 @ComponentScan(basePackages="com.example")
-@Controller
+@RestController
 public class SocialMediaController {
     
     @Autowired
@@ -34,7 +34,7 @@ public class SocialMediaController {
     MessageService messageService;
 
     @PostMapping("/register")
-    public @ResponseBody ResponseEntity<Account> registerUser(@RequestBody Account account){
+    public ResponseEntity<Account> registerUser(@RequestBody Account account){
         String username = account.getUsername();
         String password = account.getPassword();
         int responseStatus = 400;
@@ -53,7 +53,7 @@ public class SocialMediaController {
     }
 
     @PostMapping("/login")
-    public @ResponseBody ResponseEntity<Account> login(@RequestBody Account account){
+    public ResponseEntity<Account> login(@RequestBody Account account){
         int responseStatus = 401;
 
         String username = account.getUsername();
@@ -69,7 +69,7 @@ public class SocialMediaController {
     }
     
     @PostMapping("/messages")
-    public @ResponseBody ResponseEntity<Message> createMessage(@RequestBody Message message){
+    public ResponseEntity<Message> createMessage(@RequestBody Message message){
         int responseStatus = 400;
         int accountPostedBy = message.getPostedBy();
         String text = message.getMessageText();
@@ -88,7 +88,7 @@ public class SocialMediaController {
     }
 
     @GetMapping("/messages")
-    public @ResponseBody ResponseEntity<List<Message>> retrieveAllMessages(){
+    public ResponseEntity<List<Message>> retrieveAllMessages(){
         int responseStatus = 200; 
         List<Message> allCurrentMessages = new ArrayList<Message>();
         allCurrentMessages = messageService.retrieveAllMessages();
@@ -98,7 +98,7 @@ public class SocialMediaController {
     }
     
     @GetMapping("/messages/{messageId}")
-    public @ResponseBody ResponseEntity<Message> retrieveMessageById(@PathVariable int messageId){
+    public ResponseEntity<Message> retrieveMessageById(@PathVariable int messageId){
         int responseStatus = 200;
         Message requestedMessage = messageService.retrieveMessageById(messageId);
 
@@ -106,7 +106,7 @@ public class SocialMediaController {
     }
     
     @DeleteMapping("/messages/{messageId}")
-    public @ResponseBody ResponseEntity<Integer> deleteMessageById(@PathVariable int messageId){
+    public ResponseEntity<Integer> deleteMessageById(@PathVariable int messageId){
         int numberOfRowsUpdated = 0;
         int responseStatus = 200;
 
@@ -123,10 +123,10 @@ public class SocialMediaController {
     }
     
     @PatchMapping("/messages/{messageId}")
-    public @ResponseBody ResponseEntity<Integer> updateMessageText(@PathVariable int messageId,
+    public ResponseEntity<Integer> updateMessageText(@PathVariable int messageId,
             @RequestBody Map<String, String> textFromRequestBody){
         int responseStatus = 400;
-        String incomingText = textFromRequestBody.get("messageText");
+        String extractedText = textFromRequestBody.get("messageText");
         Message messageToUpdate = null;
             
         if(isValidId(messageId)){
@@ -134,10 +134,10 @@ public class SocialMediaController {
         }
 
         if(messageToUpdate != null){
-            if( (incomingText.length() <= 255) && (incomingText.length() > 0)){
+            if( (extractedText.length() <= 255) && (extractedText.length() > 0)){
                     int numberOfRowsUpdated = 1;
                     responseStatus = 200;
-                    messageService.updateMessageText(messageToUpdate, incomingText);
+                    messageService.updateMessageText(messageToUpdate, extractedText);
                     
                     return ResponseEntity.status(responseStatus).body(numberOfRowsUpdated);
             }
@@ -147,7 +147,7 @@ public class SocialMediaController {
     }    
 
     @GetMapping("/accounts/{accountId}/messages")
-    public @ResponseBody ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable int accountId){
+    public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable int accountId){
         int responseStatus = 200;
         int postedBy = accountId;
         List<Message> userMessages =  new ArrayList<Message>();
